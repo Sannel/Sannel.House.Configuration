@@ -7,34 +7,27 @@ using System.Threading.Tasks;
 
 namespace Sannel.House.Configuration.BackgroundTasks
 {
-	internal class SystemSettings : SettingsBase, ISystemSettings
+	internal class SystemSettings : SettingsBase
 	{
+		private static SystemSettings current;
+
+		public static new SystemSettings Current => current ?? (current = new SystemSettings());
+
 		public override void Initialize()
 		{
 			Init(this);
-		}
-		public string ServerApiUrl
-		{
-			get => GetValue();
-			set => SetValue(value);
+
+			var keys = settings.Values.Keys.ToList();
+
+			var q = keys;
 		}
 
-		public string ServerUsername
+		public object this[string key]
 		{
-			get => GetValue();
-			set => SetValue(value);
-		}
-
-		public string ServerPassword
-		{
-			get => GetValue();
-			set => SetValue(value);
-		}
-
-		public int SensorsPort
-		{
-			get => GetValue<int>();
-			set => SetValue(value);
+			get
+			{
+				return settings.Values[key];
+			}
 		}
 	}
 }

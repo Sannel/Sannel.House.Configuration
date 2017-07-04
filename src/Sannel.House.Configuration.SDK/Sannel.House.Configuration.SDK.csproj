@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F638A4BF-9071-4831-B59C-749EBF9031C4}</ProjectGuid>
+    <ProjectGuid>{203375F5-6CE0-42FD-9C9F-FD3DD01DE551}</ProjectGuid>
     <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sannel.House.Configuration.BackgroundTasks</RootNamespace>
-    <AssemblyName>Sannel.House.Configuration.BackgroundTasks</AssemblyName>
+    <RootNamespace>Sannel.House.Configuration</RootNamespace>
+    <AssemblyName>Sannel.House.Configuration.SDK</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
@@ -107,16 +107,12 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationBackgroundTask.cs" />
+    <Compile Include="ConfigurationConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.3</Version>
-    </PackageReference>
-    <PackageReference Include="Sannel.Configuration">
-      <Version>0.5.3</Version>
+      <Version>5.2.3</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

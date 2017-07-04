@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sannel.House.Configuration
 {
-	internal class SystemSettings : SettingsBase, ISystemSettings
+	internal class SystemSettings : SettingsBase
 	{
 
 		public override void Initialize()
@@ -39,7 +39,7 @@ namespace Sannel.House.Configuration
 		[SettingsProperty("Sensor Capture Port", SettingsPropertyType.Integer)]
 		public int SensorsPort
 		{
-			get => GetValue(defaultValue: 8175);
+			get => GetValue<int>();
 			set => SetValue(value);
 		}
 	}
