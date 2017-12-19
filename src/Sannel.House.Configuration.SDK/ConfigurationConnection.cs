@@ -1,4 +1,5 @@
-﻿using System;
+using Sannel.House.Configuration.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,13 +40,35 @@ namespace Sannel.House.Configuration
 				var result = await connection.SendMessageAsync(set);
 				if (result.Status == AppServiceResponseStatus.Success)
 				{
-					var key = result.Message.Keys.ToArray();
 					return result.Message;
 				}
 
 				return new ValueSet();
 			}).AsAsyncOperation();
-		}	
+		}
+
+		public IAsyncOperation<SettingsList> GetAllSettingsAsync()
+		{
+			return Task.Run(async () =>
+			{
+				var list = new SettingsList();
+				var set = new ValueSet
+				{
+					["Command"] = "GetAllSettings"
+				};
+
+				var result = await connection.SendMessageAsync(set);
+				if(result.Status == AppServiceResponseStatus.Success)
+				{
+					if(result.Message["AllSettings"] is string value)
+					{
+						list.Load(value);
+					}
+				}
+
+				return list;
+			}).AsAsyncOperation();
+		}
 
 		public void Dispose()
 		{

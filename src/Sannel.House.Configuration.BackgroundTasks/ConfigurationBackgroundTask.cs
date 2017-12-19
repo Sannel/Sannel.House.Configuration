@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +34,16 @@ namespace Sannel.House.Configuration.BackgroundTasks
 
 			try
 			{
-				if(message["Settings"] is string setting)
+				if(message["Command"] is string command)
+				{
+					switch (command)
+					{
+						case "GetAllSettings":
+							returnData["AllSettings"] = SystemSettings.Current.GetAllSettings().GetValue();
+							break;
+					}
+				}
+				else if(message["Settings"] is string setting)
 				{
 					returnData[setting] = SystemSettings.Current[setting];
 				}
@@ -48,9 +57,14 @@ namespace Sannel.House.Configuration.BackgroundTasks
 
 				await args.Request.SendResponseAsync(returnData);
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-
+				returnData["Exception"] = ex.ToString();
+				try
+				{
+					await args.Request.SendResponseAsync(returnData);
+				}
+				catch { }
 			}
 			finally
 			{

@@ -11,8 +11,8 @@
     <AssemblyName>Sannel.House.Configuration</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -130,7 +130,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.3</Version>
+      <Version>6.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Sannel.Configuration">
       <Version>0.5.3</Version>
@@ -140,6 +143,10 @@
     <ProjectReference Include="..\Sannel.House.Configuration.BackgroundTasks\Sannel.House.Configuration.BackgroundTasks.csproj">
       <Project>{f638a4bf-9071-4831-b59c-749ebf9031c4}</Project>
       <Name>Sannel.House.Configuration.BackgroundTasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sannel.House.Configuration.Common\Sannel.House.Configuration.Common.csproj">
+      <Project>{54a4a24f-8721-409d-88be-6633db384127}</Project>
+      <Name>Sannel.House.Configuration.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
