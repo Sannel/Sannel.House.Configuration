@@ -34,7 +34,7 @@ namespace Sannel.House.Configuration.BackgroundTasks
 
 			try
 			{
-				if(message["Command"] is string command)
+				if (message.ContainsKey("Command") && message["Command"] is string command)
 				{
 					switch (command)
 					{
@@ -43,15 +43,18 @@ namespace Sannel.House.Configuration.BackgroundTasks
 							break;
 					}
 				}
-				else if(message["Settings"] is string setting)
+				else if (message.ContainsKey("Settings"))
 				{
-					returnData[setting] = SystemSettings.Current[setting];
-				}
-				else if(message["Settings"] is string[] settings)
-				{
-					foreach(var set in settings)
+					if (message["Settings"] is string setting)
 					{
-						returnData[set] = SystemSettings.Current[set];
+						returnData[setting] = SystemSettings.Current[setting];
+					}
+					else if (message["Settings"] is string[] settings)
+					{
+						foreach (var set in settings)
+						{
+							returnData[set] = SystemSettings.Current[set];
+						}
 					}
 				}
 

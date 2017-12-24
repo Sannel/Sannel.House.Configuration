@@ -60,7 +60,8 @@ namespace Sannel.House.Configuration
 				var result = await connection.SendMessageAsync(set);
 				if(result.Status == AppServiceResponseStatus.Success)
 				{
-					if(result.Message["AllSettings"] is string value)
+					var message = result.Message;
+					if(message.ContainsKey("AllSettings") && message["AllSettings"] is string value)
 					{
 						list.Load(value);
 					}
