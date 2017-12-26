@@ -1,3 +1,4 @@
+using Sannel.House.Configuration.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,14 @@ namespace Sannel.House.Configuration.BackgroundTasks
 					switch (command)
 					{
 						case "GetAllSettings":
-							returnData["AllSettings"] = SystemSettings.Current.GetAllSettings().GetValue();
+							var value = SystemSettings.Current.GetAllSettings().GetValue();
+							returnData["AllSettings"] = value;
+							break;
+						case "UpdateSetting":
+							if (message.ContainsKey("Setting"))
+							{
+								updateSetting(message["Setting"] as string);
+							}
 							break;
 					}
 				}
@@ -58,21 +66,28 @@ namespace Sannel.House.Configuration.BackgroundTasks
 					}
 				}
 
-				await args.Request.SendResponseAsync(returnData);
 			}
 			catch(Exception ex)
 			{
 				returnData["Exception"] = ex.ToString();
-				try
-				{
-					await args.Request.SendResponseAsync(returnData);
-				}
-				catch { }
 			}
-			finally
+
+			await args.Request.SendResponseAsync(returnData);
+			messageDeferral.Complete();
+		}
+
+		private Setting updateSetting(string json)
+		{
+			if (json != null)
 			{
-				messageDeferral.Complete();
+				var u = Setting.Load(json);
+				if (u != null)
+				{
+					return SystemSettings.Current.UpdateSetting(u);
+				}
 			}
+
+			return null;
 		}
 
 		private void onCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)

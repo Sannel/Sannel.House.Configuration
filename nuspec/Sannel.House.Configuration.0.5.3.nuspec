@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Sannel.House.Configuration</id>
+        <version>0.5.3</version>
+        <authors>Adam Holt</authors>
+        <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+        <projectUrl>https://github.com/Sannel/Sannel.House.Configuration</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The SDK to communicate with the configuration app.</description>
+        <summary>The SDK to communicate with the configuration app.</summary>
+    </metadata>
+    <files>
+        <file src="..\src\Sannel.House.Configuration.SDK\bin\Release\Sannel.House.Configuration.Common.pdb" target="lib\uap10.0\Sannel.House.Configuration.Common.pdb" />
+        <file src="..\src\Sannel.House.Configuration.SDK\bin\Release\Sannel.House.Configuration.Common.pri" target="lib\uap10.0\Sannel.House.Configuration.Common.pri" />
+        <file src="..\src\Sannel.House.Configuration.SDK\bin\Release\Sannel.House.Configuration.Common.winmd" target="lib\uap10.0\Sannel.House.Configuration.Common.winmd" />
+        <file src="..\src\Sannel.House.Configuration.SDK\bin\Release\Sannel.House.Configuration.pdb" target="lib\uap10.0\Sannel.House.Configuration.pdb" />
+        <file src="..\src\Sannel.House.Configuration.SDK\bin\Release\Sannel.House.Configuration.pri" target="lib\uap10.0\Sannel.House.Configuration.pri" />
+        <file src="..\src\Sannel.House.Configuration.SDK\bin\Release\Sannel.House.Configuration.winmd" target="lib\uap10.0\Sannel.House.Configuration.winmd" />
+    </files>
+</package>

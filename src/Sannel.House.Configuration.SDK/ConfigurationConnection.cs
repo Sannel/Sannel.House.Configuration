@@ -14,11 +14,19 @@ namespace Sannel.House.Configuration
 	{
 		private AppServiceConnection connection;
 
+		public event TypedEventHandler<AppServiceConnection, AppServiceClosedEventArgs> ServiceClosed;
+
 		public ConfigurationConnection()
 		{
 			connection = new AppServiceConnection();
 			connection.PackageFamilyName = "Sannel.House.Configuration_s8t1p3zkxq1s8";
 			connection.AppServiceName = "com.sannel.house.configuration";
+			connection.ServiceClosed += connection_ServiceClosed;
+		}
+
+		private void connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+		{
+			ServiceClosed?.Invoke(sender, args);
 		}
 
 		public IAsyncOperation<bool> ConnectAsync()
@@ -68,6 +76,26 @@ namespace Sannel.House.Configuration
 				}
 
 				return list;
+			}).AsAsyncOperation();
+		}
+
+		/// <summary>
+		/// Updates the setting asynchronous.
+		/// </summary>
+		/// <param name="setting">The setting.</param>
+		/// <returns></returns>
+		public IAsyncOperation<bool> UpdateSettingAsync(Setting setting)
+		{
+			return Task.Run(async () =>
+			{
+				var set = new ValueSet
+				{
+					["Command"] = "UpdateSetting",
+					["Setting"] = setting.GetJson()
+				};
+
+				var result = await connection.SendMessageAsync(set);
+				return result.Status == AppServiceResponseStatus.Success;
 			}).AsAsyncOperation();
 		}
 

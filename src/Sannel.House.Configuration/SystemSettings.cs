@@ -33,7 +33,7 @@ namespace Sannel.House.Configuration
 		{
 			var t = GetType();
 			var list = new SettingsList();
-			foreach(var p in t.GetProperties().OrderBy(i => i?.Name))
+			foreach(var p in t.GetProperties())
 			{
 				var att = p.GetCustomAttribute<SettingsPropertyAttribute>();
 				if(att != null)
@@ -45,17 +45,45 @@ namespace Sannel.House.Configuration
 						Value = p.GetValue(this),
 						SettingType = (SettingType)att.Type
 					};
+					list.Add(s);
 				}
 			}
 
 			return list;
 		}
 
+		public Setting UpdateSetting(Setting setting)
+		{
+			var t = GetType();
+			var prop = t.GetProperties().FirstOrDefault(i => string.Compare(i.Name, setting.Key) == 0);
+			if(prop != null)
+			{
+				var att = prop.GetCustomAttribute<SettingsPropertyAttribute>();
+				if(att != null)
+				{
+					switch (att.Type)
+					{
+						case SettingsPropertyType.Integer:
+							var v = (int)(setting.Value as long? ?? default(long));
+							prop.SetMethod.Invoke(this, new object[] { v });
+							setting.Value = prop.GetMethod.Invoke(this, new object[] { });
+							break;
+						default:
+							var s = setting.Value as string ?? string.Empty;
+							prop.SetMethod.Invoke(this, new object[] { s });
+							setting.Value = prop.GetMethod.Invoke(this, new object[] { });
+							break;
+					}
+				}
+			}
+			return setting;
+		}
+
 		[SettingsProperty("Server Api Url", SettingsPropertyType.Uri)]
 		public string ServerApiUrl
 		{
-			get => GetValue();
-			set => CheckAndSetUri(value, "Server Api Url is invalid");
+			get => GetValue(nameof(ServerApiUrl));
+			set => CheckAndSetUri(value, "Server Api Url is invalid", nameof(ServerApiUrl));
 		}
 
 		[SettingsProperty("Server Username", SettingsPropertyType.String)]

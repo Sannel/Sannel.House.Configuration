@@ -8,19 +8,25 @@ namespace Sannel.House.Configuration.Common
 {
 	public sealed class SettingsList : IReadOnlyList<Setting>
 	{
-		private IList<Setting> list = new List<Setting>();
+		private List<Setting> list = new List<Setting>();
 
-		public int Count => throw new NotImplementedException();
+		public int Count 
+			=> list.Count;
 
-		public Setting this[int index] => throw new NotImplementedException();
+		public Setting this[int index] => list[index];
+
+		public void Add(Setting setting)
+		{
+			list.Add(setting);
+		}
 
 		public void Load(string data)
 		{
 			try
 			{
 				var l = JsonConvert.DeserializeObject<List<Setting>>(data);
-				l.Clear();
-				l.AddRange(list);
+				list.Clear();
+				list.AddRange(l);
 			}
 			catch { }
 		}
