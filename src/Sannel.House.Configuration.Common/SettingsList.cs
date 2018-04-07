@@ -1,3 +1,4 @@
+using Microsoft.AppCenter.Analytics;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -28,7 +29,10 @@ namespace Sannel.House.Configuration.Common
 				list.Clear();
 				list.AddRange(l);
 			}
-			catch { }
+			catch (Exception ex)
+			{
+				ex.TrackEvent("Exception During SettingsList.Load", new KeyValuePair<string, string>("Data", data));
+			}
 		}
 
 		public string GetValue()

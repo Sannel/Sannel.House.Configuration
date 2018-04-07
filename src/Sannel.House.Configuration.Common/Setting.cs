@@ -46,7 +46,10 @@ namespace Sannel.House.Configuration.Common
 			{
 				return JsonConvert.SerializeObject(this);
 			}
-			catch { }
+			catch (Exception ex)
+			{
+				ex.TrackEvent("Exception Serializing this Settings.GetJson");
+			}
 			return string.Empty;
 		}
 
@@ -61,7 +64,10 @@ namespace Sannel.House.Configuration.Common
 			{
 				return JsonConvert.DeserializeObject<Setting>(json);
 			}
-			catch { }
+			catch (Exception ex)
+			{
+				ex.TrackEvent("Exception Deserializing to this Settings.Load");
+			}
 			return null;
 		}
 	}

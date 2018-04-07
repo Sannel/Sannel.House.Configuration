@@ -1,3 +1,4 @@
+using Microsoft.AppCenter.Analytics;
 using Sannel.House.Configuration.Common;
 using System;
 using System.Collections.Generic;
@@ -14,21 +15,38 @@ namespace Sannel.House.Configuration
 	{
 		private AppServiceConnection connection;
 
+		/// <summary>
+		/// Occurs when the service closes.
+		/// </summary>
 		public event TypedEventHandler<AppServiceConnection, AppServiceClosedEventArgs> ServiceClosed;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConfigurationConnection"/> class.
+		/// </summary>
 		public ConfigurationConnection()
 		{
-			connection = new AppServiceConnection();
-			connection.PackageFamilyName = "Sannel.House.Configuration_s8t1p3zkxq1s8";
-			connection.AppServiceName = "com.sannel.house.configuration";
+			connection = new AppServiceConnection
+			{
+				PackageFamilyName = "Sannel.House.Configuration_s8t1p3zkxq1s8",
+				AppServiceName = "com.sannel.house.configuration"
+			};
 			connection.ServiceClosed += connection_ServiceClosed;
 		}
 
 		private void connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-		{
+		{ 
 			ServiceClosed?.Invoke(sender, args);
+
+			Analytics.TrackEvent("ConfigurationConnection.serviceclosed", new Dictionary<string, string>()
+			{
+				{"Status", args?.Status.ToString() }
+			});
 		}
 
+		/// <summary>
+		/// Attempt to connect to the Configuration app
+		/// </summary>
+		/// <returns></returns>
 		public IAsyncOperation<bool> ConnectAsync()
 		{
 			return Task.Run(async () =>
@@ -38,12 +56,19 @@ namespace Sannel.House.Configuration
 			}).AsAsyncOperation();
 		}
 
+		/// <summary>
+		/// Returns a ValueSet containing the giving configurations if they were available
+		/// </summary>
+		/// <param name="keys">The keys.</param>
+		/// <returns></returns>
 		public IAsyncOperation<ValueSet> GetConfiguration(params string[] keys)
 		{
 			return Task.Run(async () =>
 			{
-				var set = new ValueSet();
-				set["Settings"] = keys;
+				var set = new ValueSet
+				{
+					["Settings"] = keys
+				};
 
 				var result = await connection.SendMessageAsync(set);
 				if (result.Status == AppServiceResponseStatus.Success)
@@ -55,6 +80,10 @@ namespace Sannel.House.Configuration
 			}).AsAsyncOperation();
 		}
 
+		/// <summary>
+		/// Gets a list of all settings currently configured
+		/// </summary>
+		/// <returns></returns>
 		public IAsyncOperation<SettingsList> GetAllSettingsAsync()
 		{
 			return Task.Run(async () =>
@@ -99,6 +128,9 @@ namespace Sannel.House.Configuration
 			}).AsAsyncOperation();
 		}
 
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
 		public void Dispose()
 		{
 			connection?.Dispose();

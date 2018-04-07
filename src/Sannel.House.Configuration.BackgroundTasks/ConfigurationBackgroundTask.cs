@@ -1,3 +1,5 @@
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using Sannel.House.Configuration.Common;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,11 @@ namespace Sannel.House.Configuration.BackgroundTasks
 			deferral = taskInstance.GetDeferral();
 			taskInstance.Canceled += onCanceled;
 
+			new SystemSettings();
+
+			AppCenter.Start(SystemSettings.Current.ConfigurationAppSecret, typeof(Analytics));
+			Analytics.TrackEvent("Background Task Started");
+
 			// Retrieve the app service connection and set up a listener for incoming app service requests.
 			var details = taskInstance.TriggerDetails as AppServiceTriggerDetails;
 			appServiceConnection = details.AppServiceConnection;
@@ -29,6 +36,8 @@ namespace Sannel.House.Configuration.BackgroundTasks
 		private async void onRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
 		{
 			var messageDeferral = args.GetDeferral();
+
+			Analytics.TrackEvent("onRequestRecived");
 
 			var message = args.Request.Message;
 			var returnData = new ValueSet();
@@ -49,6 +58,12 @@ namespace Sannel.House.Configuration.BackgroundTasks
 								updateSetting(message["Setting"] as string);
 							}
 							break;
+						default:
+							Analytics.TrackEvent("Unknown Command", new Dictionary<string, string>()
+							{
+								{"Command", command }
+							});
+							break;
 					}
 				}
 				else if (message.ContainsKey("Settings"))
@@ -65,11 +80,16 @@ namespace Sannel.House.Configuration.BackgroundTasks
 						}
 					}
 				}
+				else
+				{
+					Analytics.TrackEvent("NonValid Message");
+				}
 
 			}
 			catch(Exception ex)
 			{
 				returnData["Exception"] = ex.ToString();
+				ex.TrackEvent("Exception Processing request");
 			}
 
 			await args.Request.SendResponseAsync(returnData);
@@ -92,6 +112,11 @@ namespace Sannel.House.Configuration.BackgroundTasks
 
 		private void onCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
 		{
+			Analytics.TrackEvent("onCanceled", new Dictionary<string, string>()
+			{
+				{"reason", reason.ToString() }
+			});
+	
 			deferral?.Complete();
 		}
 	}

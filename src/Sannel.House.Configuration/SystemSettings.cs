@@ -106,5 +106,33 @@ namespace Sannel.House.Configuration
 			get => GetValue<int>();
 			set => SetValue(value);
 		}
+
+		[SettingsProperty("Configuration AppSecret", SettingsPropertyType.String)]
+		public string ConfigurationAppSecret
+		{
+			get => GetValue();
+			set => SetValue(value);
+		}
+
+		[SettingsProperty("Sensor Capture AppSecret", SettingsPropertyType.String)]
+		public string SensorCaptureAppSecret
+		{
+			get => GetValue();
+			set => SetValue(value);
+		}
+
+		[SettingsProperty("Temperature AppSecret", SettingsPropertyType.String)]
+		public string TemperatureAppSecret
+		{
+			get => GetValue();
+			set => SetValue(value);
+		}
+
+		[SettingsProperty("Temperature UI AppSecret", SettingsPropertyType.String)]
+		public string TemperatureUIAppSecret
+		{
+			get => GetValue();
+			set => SetValue(value);
+		}
 	}
 }

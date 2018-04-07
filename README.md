@@ -1,10 +1,8 @@
-﻿# Sannel.House.Configuration
-The Front end configuration and background task for apps to request configuration info from.
+# Sannel.House.Configuration
+The Front end configuration and background task for apps to request configuration information.
 
-## Available configurations
-|Name|Type|Description|
-|----|----|-----------|
-|ServerApiUrl|string|The url to the server api|
-|ServerUsername|string|The username to login to the server|
-|ServerPassword|string|The password to login to the server|
-|SensorsPort|int|The port used for sending and receiving sensor data on the network|
+## Build Status
+|master|develop|
+|------|-------|
+|[![Build status](https://build.appcenter.ms/v0.1/apps/3ce20b50-667b-4735-aaea-a5f525da8cd1/branches/master/badge)](https://appcenter.ms)|[![Build status](https://build.appcenter.ms/v0.1/apps/3ce20b50-667b-4735-aaea-a5f525da8cd1/branches/develop/badge)](https://appcenter.ms)|
+
