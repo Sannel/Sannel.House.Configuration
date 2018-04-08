@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System.RemoteSystems;
 
 namespace Sannel.House.Configuration
 {
@@ -47,14 +48,21 @@ namespace Sannel.House.Configuration
 		/// Attempt to connect to the Configuration app
 		/// </summary>
 		/// <returns></returns>
-		public IAsyncOperation<bool> ConnectAsync()
+		public IAsyncOperation<AppServiceConnectionStatus> ConnectAsync()
 		{
-			return Task.Run(async () =>
-			{
-				var result = await connection.OpenAsync();
-				return result == AppServiceConnectionStatus.Success;
-			}).AsAsyncOperation();
+			return connection.OpenAsync();
 		}
+
+		/// <summary>
+		/// Connects to remote asynchronous.
+		/// </summary>
+		/// <param name="remoteSystem">The remote system.</param>
+		/// <returns></returns>
+		public IAsyncOperation<AppServiceConnectionStatus> ConnectToRemoteAsync(RemoteSystem remoteSystem)
+		{
+			var rscr = new RemoteSystemConnectionRequest(remoteSystem);
+			return  connection.OpenRemoteAsync(rscr);
+		} 
 
 		/// <summary>
 		/// Returns a ValueSet containing the giving configurations if they were available

@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap uap4 mp">
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap uap4 mp uap3">
   <Identity Name="Sannel.House.Configuration" Publisher="CN=Sannel Software LLC" Version="0.4.1.0" />
   <mp:PhoneIdentity PhoneProductId="73140580-d126-4e83-a45c-27613a0a33c5" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
@@ -22,12 +22,13 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.appService" EntryPoint="Sannel.House.Configuration.BackgroundTasks.ConfigurationBackgroundTask">
-          <uap:AppService Name="com.sannel.house.configuration" />
+          <uap3:AppService Name="com.sannel.house.configuration" SupportsRemoteSystems="true" />
         </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <uap3:Capability Name="remoteSystem" />
   </Capabilities>
 </Package>
