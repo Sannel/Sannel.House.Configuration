@@ -1,4 +1,4 @@
-$version = $env:Version + $env:APPCENTER_BUILD_ID;
+$version = $env:BUILD_VERSION + $env:APPCENTER_BUILD_ID;
 if($env:APPCENTER_BRANCH -ne "master")
 {
 	$version = $version + "-alpha";
