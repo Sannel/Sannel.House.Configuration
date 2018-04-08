@@ -9,3 +9,6 @@ $xml.package.metadata.version = $version
 $xml.Save($path);
 
 nuget pack $path
+nuget setapikey $env:MYGET_APIKEY -Source "https://www.myget.org/F/sannel-house/api/v3/index.json"
+$package = ".\Sannel.House.Configuration." + $version + ".nupkg"
+nuget push $package -Source "https://www.myget.org/F/sannel-house/api/v3/index.json"
