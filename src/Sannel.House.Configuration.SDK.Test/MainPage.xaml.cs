@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,7 +33,7 @@ namespace Sannel.House.Configuration.SDK.Test
 
 			using (var connection = new ConfigurationConnection())
 			{
-				if(await connection.ConnectAsync())
+				if(await connection.ConnectAsync() == Windows.ApplicationModel.AppService.AppServiceConnectionStatus.Success)
 				{
 					var values = await connection.GetConfiguration("ServerApiUrl","ServerUsername","ServerPassword", "SensorsPort");
 				}
